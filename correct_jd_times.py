@@ -1,6 +1,7 @@
 """
 Code to take the JD-MID or JD-START
 + EXPTIME and convert to HJD-MID
+or BJD_TDB-MID
 """
 import argparse as ap
 import numpy as np
@@ -46,7 +47,7 @@ def argParse():
                    choices=['hjd', 'bjd_tdb'])
     p.add_argument('--exptime',
                    help='If exptime is given, JD-START is assumed, '\
-                        'otherwise JD-MID'
+                        'otherwise JD-MID',
                    type=float)
     return p.parse_args()
 
