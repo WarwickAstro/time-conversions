@@ -45,7 +45,8 @@ def argParse():
                    help='type of time to convert to',
                    choices=['hjd', 'bjd_tdb'])
     p.add_argument('--exptime',
-                   help='If exptime is given, JD-START is assumed',
+                   help='If exptime is given, JD-START is assumed, '\
+                        'otherwise JD-MID'
                    type=float)
     return p.parse_args()
 

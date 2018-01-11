@@ -19,7 +19,7 @@ positional arguments:
 
 optional arguments:
   -h, --help         show this help message and exit
-  --exptime EXPTIME  If exptime is given, JD-START is assumed
+  --exptime EXPTIME  If exptime is given, JD-START is assumed, otherwise JD-MID
 ```
 
 # Contributors
