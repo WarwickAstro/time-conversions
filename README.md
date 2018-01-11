@@ -32,6 +32,15 @@ python correct_jd_times.py times.jd 10:00:00 -- -20:00:00 lapalma hjd
 
 This will produce a ```times.jd.hjd``` file with the HJD corrected times.
 
+If the JD values in ```times.jd``` are not already corrected to the mid-exposure point,
+but are JD-START values, you can supply ```--exptime``` to first apply an ```exptime/2```
+correction to the JD value before conversion.
+
+
+```sh
+python correct_jd_times.py --exptime 60 times.jd 10:00:00 -- -20:00:00 lapalma hjd
+```
+
 **Note:** The double dash ```--``` before supplying a negative declination. This is
 the standard *nix way of allowing positional arguments to start with a dash.
 
