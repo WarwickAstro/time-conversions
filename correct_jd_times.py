@@ -36,8 +36,10 @@ def argParse():
     p.add_argument('jdfile',
                    help='file containing list of JDs')
     p.add_argument('ra',
-                   help='RA of target (HH:MM:SS.ss')
+                   type=str,
+                   help='RA of target (HH:MM:SS.ss)')
     p.add_argument('dec',
+                   type=str,
                    help='Dec of target (DD:MM:SS.ss)')
     p.add_argument('observatory',
                    help='Observatory where data was taken, e.g. '\
@@ -46,9 +48,9 @@ def argParse():
                    help='type of time to convert to',
                    choices=['hjd', 'bjd_tdb'])
     p.add_argument('--exptime',
+                   type=float,
                    help='If exptime is given, JD-START is assumed, '\
-                        'otherwise JD-MID',
-                   type=float)
+                        'otherwise JD-MID')
     return p.parse_args()
 
 def getLightTravelTimes(ra, dec, time_to_correct):
@@ -98,7 +100,7 @@ if __name__ == "__main__":
     else:
         new_time = time_jd.tdb + ltt_bary
     # save out the new time file
-    np.savetxt('{}.{}'.format(args.jd_file, args.time_type),
-               np.c_[new_time],
+    np.savetxt('{}.{}'.format(args.jdfile, args.time_type),
+               np.c_[new_time.value],
                fmt='%.8f',
                header=args.time_type)
