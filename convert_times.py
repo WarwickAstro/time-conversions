@@ -113,13 +113,13 @@ if __name__ == "__main__":
 
     # first correct the times to the same start, mid, end frame as needed
     # correction is assuming to be in units of half_exptime
-    correction = (args.exptime/2.)*u.second
-    if args.input_frame == 'mid':
+    correction = (args.exptime/2.)/60./60./24
+    if args.input_timestamps == 'mid':
         print('No timestamp correction needed')
-    elif args.input_frame == 'start':
+    elif args.input_timestamps == 'start':
         print('Converting START --> MID')
         tinp = tinp + correction
-    elif args.input_frame == 'end':
+    elif args.input_timestamps == 'end':
         print('Converting END --> MID')
         tinp = tinp - correction
 
@@ -146,20 +146,24 @@ if __name__ == "__main__":
 
     # now convert to the output format requested
     if args.output_format == 'jd':
+        print('Output set to JD_UTC_MID, no further correction required')
         new_time = time_inp.jd
     elif args.output_format == 'mjd':
+        print('Output set to MJD_UTC_MID, correcting JD --> MJD')
         new_time = time_inp.mjd
     elif args.output_format == 'hjd':
+        print('Output set to HJD_UTC_MID, adding heliocentric correction')
         _, ltt_helio = getLightTravelTimes(args.ra, args.dec, time_inp)
-        new_time = time_inp + ltt_helio
+        new_time = (time_inp + ltt_helio).value
     elif args.output_format == 'bjd':
+        print('Output set to BJD_TDB_MID, adding barycentric correction')
         ltt_bary, _ = getLightTravelTimes(args.ra, args.dec, time_inp)
-        new_time = time_inp.tdb + ltt_bary
+        new_time = (time_inp.tdb + ltt_bary).value
     else:
         print('Unknown output time format, exiting...')
 
     # save out the new time file
     np.savetxt('{}.{}'.format(args.input_times, args.output_format),
-               np.c_[new_time.value],
+               np.c_[new_time],
                fmt='%.8f',
                header=args.output_format)
