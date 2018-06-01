@@ -1,5 +1,5 @@
 """
-Code to times in any format to times in any other format
+Code to change times in any format to times in any other format
 
 Inputs can be: JD_UTC_f*, MJD_UTC_f*, HJD_UTC_f*, BJD_TDB_f*
 where f* denotes the exposure timestamp location (see below)
