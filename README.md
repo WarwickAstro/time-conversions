@@ -14,7 +14,7 @@ Input values are expected in the following formats:
 Input timestamps can be from the ```start```, ```mid``` or ```end``` of the exposures.
 A mid-point correction is applied first, if required.
 
-After mid-point correction the times are converted to ```JD_UTCMID```, then the final
+After mid-point correction the times are converted to ```JD_UTC_MID```, then the final
 conversion to the output format is done.
 
 Outputs are given in the following formats:
@@ -67,7 +67,7 @@ This will produce a ```times.txt.hjd``` file with the HJD corrected times.
 
 If the JD values in ```times.txt``` are not already corrected to the mid-exposure point,
 but are JD\_UTC\_START values instead, you would specify ```start``` instead of ```mid```
-in the commands above:
+in the command above:
 
 ```sh
 python convert_times.py times.txt jd start hjd 10:00:00 -- -20:00:00 lapalma 60
