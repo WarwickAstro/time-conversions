@@ -2,47 +2,77 @@
 
 Code to convert times used for astronomical observations
 
-# Converting JD to HJD or BJD_TDB
+# Converting between JD_UTC, MJD_UTC, HJD_UTC and BJD\_TDB
+
+Input values are expected in the following formats:
+
+   1. JD\_UTC
+   1. MJD\_UTC
+   1. HJD\_UTC
+   1. BJD\_TDB
+
+Input timestamps can be from the ```start```, ```mid``` or ```end``` of the exposures.
+A mid-point correction is applied first, if required.
+
+After mid-point correction the times are converted to ```JD\_UTC\_MID```, then the final
+conversion to the output format is done.
+
+Outputs are given in the following formats:
+
+   1. JD\_UTC\_MID
+   1. MJD\_UTC\_MID
+   1. HJD\_UTC\_MID
+   1. BJD\_TDB\_MID
+
+
+# Usage
 
 ```sh
-▶ python correct_jd_times.py -h
-usage: correct_jd_times.py [-h] [--exptime EXPTIME]
-                           jdfile ra dec observatory {hjd,bjd_tdb}
+▶ python convert_times.py -h
+usage: convert_times.py [-h]
+                        input_times {jd,mjd,hjd,bjd} {start,mid,end}
+                        {jd,mjd,hjd,bjd} ra dec observatory exptime
 
 positional arguments:
-  jdfile             file containing list of JDs
-  ra                 RA of target (HH:MM:SS.ss
-  dec                Dec of target (DD:MM:SS.ss)
-  observatory        Observatory where data was taken, e.g. lapalma, paranal,
-                     lasilla, SAAO
-  {hjd,bjd_tdb}      type of time to convert to
+  input_times       file containing list of times to convert
+  {jd,mjd,hjd,bjd}  type of time we are converting from
+  {start,mid,end}   type of input timestamps we have
+  {jd,mjd,hjd,bjd}  type of time we are converting to
+  ra                RA of target (HH:MM:SS.ss)
+  dec               Dec of target (DD:MM:SS.ss)
+  observatory       Observatory where data was taken, e.g. lapalma, paranal
+                    lasilla, SAAO
+  exptime           Exptime of observations
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --exptime EXPTIME  If exptime is given, JD-START is assumed, otherwise JD-MID
+  -h, --help        show this help message and exit
 ```
 
-For example, if we want to HJD correct some JD times (in the ```times.jd``` file)
+For example, if we want to HJD correct some JD\_UTC\_MID times (in the ```times.txt``` file)
 for a target at RA=10:00:00 Dec=-20:00:00, observed from La Palma,  we can do the
 following:
 
 ```sh
-python correct_jd_times.py times.jd 10:00:00 -- -20:00:00 lapalma hjd
+python convert_times.py times.txt jd mid hjd 10:00:00 -- -20:00:00 lapalma 60
 ```
 
-This will produce a ```times.jd.hjd``` file with the HJD corrected times.
+(**Note:** The double dash ```--``` before the minus sign in the negative declination, this is
+UNIX way of specifying arguments that start with a dash)
 
-If the JD values in ```times.jd``` are not already corrected to the mid-exposure point,
-but are JD-START values, you can supply ```--exptime``` to first apply an ```exptime/2```
-correction to the JD value before conversion.
+This will produce a ```times.txt.hjd``` file with the HJD corrected times.
 
+The following assumptions are made:
+
+   1. The times to convert are in the first column of the file listed
+   1. The output timestamps should be corrected to exposure mid-point
+
+If the JD values in ```times.txt``` are not already corrected to the mid-exposure point,
+but are JD\_UTC\_START values instead, you would specify ```start``` instead of ```mid```
+in the commands above:
 
 ```sh
-python correct_jd_times.py --exptime 60 times.jd 10:00:00 -- -20:00:00 lapalma hjd
+python convert_times.py times.txt jd start hjd 10:00:00 -- -20:00:00 lapalma 60
 ```
-
-**Note:** The double dash ```--``` before supplying a negative declination. This is
-the standard *nix way of allowing positional arguments to start with a dash.
 
 Observatory names can be found using the following:
 
