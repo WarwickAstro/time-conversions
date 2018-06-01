@@ -111,9 +111,9 @@ if __name__ == "__main__":
     # read in the input times - assumes first column if >1 col
     tinp = np.loadtxt(args.input_times, usecols=[0], unpack=True)
 
-    # first correct the times to the same start, mid, end frame as needed
+    # first correct the times to the mid-point, if required
     # correction is assuming to be in units of half_exptime
-    correction = (args.exptime/2.)/60./60./24
+    correction = (args.exptime/2.)/60./60./24.
     if args.input_timestamps == 'mid':
         print('No timestamp correction needed')
     elif args.input_timestamps == 'start':
