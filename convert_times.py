@@ -1,15 +1,12 @@
 """
 Code to times in any format to times in any other format
 
-Inputs can be: JD_UTC_f*, HJD_f*, BJD_TDB_f*
+Inputs can be: JD_UTC_f*, MJD_UTC_f*, HJD_UTC_f*, BJD_TDB_f*
 where f* denotes the exposure timestamp location (see below)
 
 Timestamp types can be: START, MID, END
 
-Outputs can be: JD_UTC_f*, HJD_f*, BJD_TDB_f*
-again where f* denotes the exposure timestamp location
-
-Timestamp locations are generally required as MID
+Outputs can be: JD_UTC_MID, MJD_UTC_MID, HJD_UTC_MID, BJD_TDB_MID
 """
 import sys
 import argparse as ap
